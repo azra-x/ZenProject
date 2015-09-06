@@ -265,7 +265,8 @@ partition' x = x
 
 --pembatas
 
-replicate' x = x
+replicate' 0 x = []
+replicate' a x = x : replicate' (a-1) x 
 
 --pembatas
 -- First Assignment
