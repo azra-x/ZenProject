@@ -112,13 +112,15 @@ reverse' (x:xs) = (reverse' xs) ++ (x:[])
 
 last' [x] = x
 last' (x:xs) = last' xs
+
 --pembatas
 
 tail' (x:xs) = xs
 
 --pembatas
 
-init' x = x
+init' [x] = []
+init' (x:xs) = x : init' xs
 
 --pembatas
 
@@ -133,6 +135,7 @@ min' x y
   | x > y = y
   | x < y = x
   | x == y = x
+  
 --pembatas
 
 concat' x = x
@@ -245,7 +248,12 @@ tails' x = x
 
 --pembatas
 
-union' x = x
+union' [] [] = []
+union' [x] [] =  [x]
+union' [] [x] = [x]
+union' [x] [y] = [x,y]
+union' (x:xs) (y:ys)
+  | x == y = x : union' (xs) (ys)
 
 --pembatas
 
@@ -253,7 +261,8 @@ intersect' x = x
 
 --pembatas
 
-group' x = x
+group' [] = []
+group' (x:xs) = [x] : group' (xs)
 
 --pembatas
 
@@ -266,7 +275,7 @@ partition' x = x
 --pembatas
 
 replicate' 0 x = []
-replicate' a x = x : replicate' (a-1) x 
+replicate' a x = x : replicate' (a-1) x
 
 --pembatas
 -- First Assignment
