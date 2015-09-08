@@ -32,8 +32,8 @@ fst' (a,b) = a
 snd' (a,b) = b
 
 --pembatas
-
-map' x = x
+map' u [] = []
+map' u (x:xs) = u x : map' u xs
 
 --pembatas
 
@@ -48,7 +48,11 @@ delete' u (x:xs)
 
 --pembatas
 
-deleteAll' x = x
+deleteAll' u [] = []
+deleteAll' u (x:xs)
+  | u == x = deleteAll' u xs
+  | u /= x = x : deleteAll' u xs
+
 
 --pembatas
 
@@ -66,9 +70,11 @@ zip' x = x
 
 zipWith' x = x
 
---pembatas
+--in progress
 
-nth' x = x
+nth' (a) (x:xs)
+  | a == 0 = x
+  | a >= 0 = x : nth' (a-1) (x:xs)
 
 --pembatas
 
@@ -112,7 +118,6 @@ reverse' (x:xs) = (reverse' xs) ++ (x:[])
 
 last' [x] = x
 last' (x:xs) = last' xs
-
 --pembatas
 
 tail' (x:xs) = xs
@@ -135,18 +140,19 @@ min' x y
   | x > y = y
   | x < y = x
   | x == y = x
-  
 --pembatas
 
-concat' x = x
-
---pembatas
-
-intersperse' x = x
+concat x = x
 
 --pembatas
 
-intercalate' x = x
+intersperse' a [] = []
+intersperse' a [x] = [x]
+intersperse' a (x:xs) = x : a : intersperse' a (xs)
+
+--pembatas
+
+intercalate' (x:xs) (y:ys) = (y:ys)
 
 --pembatas
 
@@ -255,9 +261,14 @@ union' [x] [y] = [x,y]
 union' (x:xs) (y:ys)
   | x == y = x : union' (xs) (ys)
 
---pembatas
+--baris 269 = kenapa tdk bisa kebalikan?
 
-intersect' x = x
+intersect' [] [] = []
+intersect' [x] [] = []
+intersect' [] [x] = []
+intersect' (x:xs) (y:ys)
+  | x == y = x : intersect' (xs) (ys)
+  | x /= y = intersect' (x:xs) (ys)
 
 --pembatas
 
