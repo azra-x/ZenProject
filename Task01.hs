@@ -32,12 +32,16 @@ fst' (a,b) = a
 snd' (a,b) = b
 
 --pembatas
+
 map' u [] = []
 map' u (x:xs) = u x : map' u xs
 
 --pembatas
 
-filter' x = x
+filter' _ [] = []
+filter' a (x:xs)
+  | a x == True = x : filter' a xs
+  | a x == False = filter' a xs
 
 --pembatas
 
@@ -64,7 +68,9 @@ foldl1' x = x
 
 --pembatas
 
-zip' x = x
+zip' [] _ = []
+zip' _ [] = []
+zip' (x:xs) (y:ys) = (x,y) : zip' (xs) (ys)
 
 --pembatas
 
@@ -72,9 +78,9 @@ zipWith' x = x
 
 --in progress
 
-nth' (a) (x:xs)
+nth' (x:xs) a
   | a == 0 = x
-  | a >= 0 = x : nth' (a-1) (x:xs)
+  | a >= 0 = nth' (xs) (a-1)
 
 --pembatas
 
@@ -170,7 +176,10 @@ or' (x:xs)
 
 --pembatas
 
-zip3' x = x
+zip3' [] _ _ = []
+zip3' _ [] _ = []
+zip3' _ _ [] = []
+zip3' (x:xs) (y:ys) (z:zs) = (x,y,z) : zip3' (xs) (ys) (zs)
 
 --pembatas
 
@@ -212,15 +221,24 @@ concatMap' x = x
 
 --pembatas
 
-all' x = x
+all' _ [] = True
+all' a (x:xs)
+  | a x == False = False
+  | otherwise = all' a (xs)
 
 --pembatas
 
-any' x = x
+any' _ [] = False
+any' a (x:xs)
+  | a x == True = True
+  | otherwise = any' a (xs)
 
 --pembatas
 
-insert' u (x:xs) = (u:x:xs)
+insert' _ [] = []
+insert' u (x:xs)
+  | u <= x = u:x:xs
+  | otherwise = x : insert' u xs
 
 --pembatas
 
@@ -238,11 +256,13 @@ sort' x = x
 
 --pembatas
 
-minimum' x = x
+minimum' [x] = x
+minimum' (x:xs) = min x (minimum' xs)
 
 --pembatas
 
-maximum' x = x
+maximum' [x] = x
+maximum' (x:xs) = max x (maximum' xs)
 
 --pembatas
 
@@ -250,7 +270,8 @@ inits' x = x
 
 --pembatas
 
-tails' x = x
+tails' [] = [[]]
+tails' (x:xs) = [x:xs] ++ tails' xs
 
 --pembatas
 
@@ -261,14 +282,13 @@ union' [x] [y] = [x,y]
 union' (x:xs) (y:ys)
   | x == y = x : union' (xs) (ys)
 
---baris 269 = kenapa tdk bisa kebalikan?
+--baris terakhir = kenapa tdk bisa kebalikan?
 
 intersect' [] [] = []
 intersect' [x] [] = []
 intersect' [] [x] = []
 intersect' (x:xs) (y:ys)
-  | x == y = x : intersect' (xs) (ys)
-  | x /= y = intersect' (x:xs) (ys)
+  | x == y = x : intersect' (x:xs) (ys)
 
 --pembatas
 
