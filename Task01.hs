@@ -209,12 +209,20 @@ unwords' x = x
 
 --pembatas
 
-takeWhile' x = x
+takeWhile' _ [] = []
+takeWhile' a (x:xs)
+  | a x == False = []
+  | a x == True = x : takeWhile' a xs
+  | otherwise = takeWhile' a xs
 
 --pembatas
 
-dropWhile' x = x
-
+dropWhile' _ [] = []
+dropWhile' a (x:xs)
+  | a x == False = (x:xs)
+  | a x == True = dropWhile' a (xs)
+  | otherwise = dropWhile' a (xs)
+  
 --pembatas
 
 concatMap' x = x
