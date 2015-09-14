@@ -60,11 +60,13 @@ deleteAll' u (x:xs)
 
 --pembatas
 
-foldl' x = x
+foldel a f [] = f
+foldel a f (x:xs) = a f (foldel a x (xs))
 
 --pembatas
 
-foldl1' x = x
+foldel1 a [x] = x
+foldel1 a (x:xs) = a x (foldel1 a xs)
 
 --pembatas
 
@@ -74,7 +76,10 @@ zip' (x:xs) (y:ys) = (x,y) : zip' (xs) (ys)
 
 --pembatas
 
-zipWith' x = x
+zipWith' a [] [] = []
+zipWith' a (x:xs) [] = []
+zipWith' a [] (x:xs) = []
+zipWith' a (x:xs) (y:ys) = a x y : zipWith' a (xs) (ys)
 
 --in progress
 
@@ -84,7 +89,8 @@ nth' (x:xs) a
 
 --pembatas
 
-scanl' x = x
+--scanl' a u [] = [u]
+--scanl' a u (x:xs) = a u (scanl' a u xs)
 
 --pembatas
 
@@ -148,7 +154,9 @@ min' x y
   | x == y = x
 --pembatas
 
-concat x = x
+concat' [] = []
+concat' [[]] = []
+concat' (x:xs) = x ++ concat' xs
 
 --pembatas
 
@@ -197,7 +205,7 @@ words' x = x
 
 --pembatas
 
-lines' h = [h]
+lines' x = x
 
 --pembatas
 
@@ -222,7 +230,7 @@ dropWhile' a (x:xs)
   | a x == False = (x:xs)
   | a x == True = dropWhile' a (xs)
   | otherwise = dropWhile' a (xs)
-  
+
 --pembatas
 
 concatMap' x = x
@@ -250,17 +258,24 @@ insert' u (x:xs)
 
 --pembatas
 
-zipWith3' x = x
+zipWith3' a [] [] [] = []
+zipWith3' a (x:xs) (z:zs) [] = []
+zipWith3' a [] (x:xs) (z:zs) = []
+zipWith3' a (x:xs) [] (z:zs) = []
+zipWith3' a (x:xs) (y:ys) (z:zs) = a x y z : zipWith3 a (xs) (ys) (zs)
 
 --pembatas
 
 -- 1.b
 
-nub' x = x
+nub' [] = []
+nub' (x:xs) = x : nub' (deleteAll' x (x:xs))
 
 --pembatas
 
-sort' x = x
+sort' [x] = [x]
+sort' [] = []
+sort' (x:xs) = minimum' (x:xs) : sort' xs
 
 --pembatas
 
@@ -303,13 +318,13 @@ intersect' (x:xs) (y:ys)
 group' [] = []
 group' (x:xs) = [x] : group' (xs)
 
+--how to change list of list into tuple of list
+
+splitAt' a (x:xs) = ((take' a (x:xs)) , (drop' a (x:xs)))
+
 --pembatas
 
-splitAt' x = x
-
---pembatas
-
-partition' x = x
+partition' _ [] = [] ++ [[]]
 
 --pembatas
 
