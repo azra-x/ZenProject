@@ -1,4 +1,4 @@
--- First Assignment
+d-- First Assignment
 -- Reimplement Haskell function
 -- DON'T USE GOOGLE
 module Template where
@@ -60,13 +60,13 @@ deleteAll' u (x:xs)
 
 --pembatas
 
-foldel a f [] = f
-foldel a f (x:xs) = a f (foldel a x (xs))
+foldl'' a f [] = f
+foldl'' a f (x:xs) = a f (foldl'' a x (xs))
 
 --pembatas
 
-foldel1 a [x] = x
-foldel1 a (x:xs) = a x (foldel1 a xs)
+foldl1'' a [x] = x
+foldl1'' a (x:xs) = a x (foldl1'' a xs)
 
 --pembatas
 
@@ -89,12 +89,14 @@ nth' (x:xs) a
 
 --pembatas
 
---scanl' a u [] = [u]
---scanl' a u (x:xs) = a u (scanl' a u xs)
+scanl'' a u [] = [u]
+scanl'' a u (x:xs) = [u] ++ (scanl'' a (a u x) xs)
 
 --pembatas
 
-scanl1' x = x
+scanl1' a [] = []
+scanl1' a [x] = [x]
+scanl1' a (x:xs) = [x] ++ scanl1' a ((a x (head xs)): tail xs)
 
 --pembatas
 
@@ -316,7 +318,10 @@ intersect' (x:xs) (y:ys)
 --pembatas
 
 group' [] = []
-group' (x:xs) = [x] : group' (xs)
+group' [x] = [[x]]
+group' (x:xs)
+  | x == head xs = [x] : group' (xs)
+  | x /= head xs = [[x]] ++ group' (xs)
 
 --how to change list of list into tuple of list
 
@@ -324,7 +329,11 @@ splitAt' a (x:xs) = ((take' a (x:xs)) , (drop' a (x:xs)))
 
 --pembatas
 
-partition' _ [] = [] ++ [[]]
+partition' a (x:xs) = ((filter' a (x:xs)) , (unfilter' a (x:xs)))
+  where unfilter' _ [] = []
+        unfilter' a (x:xs)
+          |a x == False = x : unfilter' a xs
+          |a x == True = unfilter' a xs
 
 --pembatas
 
