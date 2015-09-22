@@ -1,4 +1,4 @@
-d-- First Assignment
+-- First Assignment
 -- Reimplement Haskell function
 -- DON'T USE GOOGLE
 module Template where
@@ -60,13 +60,17 @@ deleteAll' u (x:xs)
 
 --pembatas
 
-foldl'' a f [] = f
-foldl'' a f (x:xs) = a f (foldl'' a x (xs))
+foldl'' a m [] = m
+foldl'' f a (x:xs) = f (foldl'' f (a) (xs)) x
 
+-- (-) 2 (1,2,3,4)
+-- (-) 2 (foldl'' (-) 1 (2,3,4) )
+-- (-) 2 ((-) 1 (foldl'' (-) 2 (3,4)))
+-- (-)  ((-)1 ((-) 2 ((-) 3 4 )) 2
 --pembatas
 
 foldl1'' a [x] = x
-foldl1'' a (x:xs) = a x (foldl1'' a xs)
+foldl1'' a (x:xs) = a (foldl1'' a xs) x
 
 --pembatas
 
@@ -116,7 +120,8 @@ notElem' u (x:xs)
 
 --pembatas
 
-head' (x:xs) = x
+head' (x:xs)
+  | x == head xs = takeWhile (==x) (x:xs) ++ dropWhile (==x) (x:xs)
 
 --pembatas
 
@@ -211,7 +216,7 @@ lines' x = x
 
 --pembatas
 
-unlines' x = x
+--unlines' (x:xs) = putStrLn x : unlines' xs : []
 
 --pembatas
 
@@ -291,7 +296,8 @@ maximum' (x:xs) = max x (maximum' xs)
 
 --pembatas
 
-inits' x = x
+inits' [] = [[]]
+inits' (x:xs) = (inits' (init (x:xs))) ++ [(x:xs)]
 
 --pembatas
 
@@ -309,19 +315,23 @@ union' (x:xs) (y:ys)
 
 --baris terakhir = kenapa tdk bisa kebalikan?
 
-intersect' [] [] = []
-intersect' [x] [] = []
-intersect' [] [x] = []
+intersect' _ [] = []
+intersect' [] _ = []
 intersect' (x:xs) (y:ys)
-  | x == y = x : intersect' (x:xs) (ys)
-
+  | x == find x (y:ys) = [x] ++ intersect' xd (y:ys)
+  | x /= find x (y:ys) = intersect' xs (y:ys)
+    where find x [] = 0
+          find x (y:ys)
+            | x == y = y
+            | x /= y = carisi x (ys)
 --pembatas
 
 group' [] = []
 group' [x] = [[x]]
 group' (x:xs)
-  | x == head xs = [x] : group' (xs)
-  | x /= head xs = [[x]] ++ group' (xs)
+  | x == head xs = takeWhile (==x) (x:xs) : group' (dropWhile (==x) (x:xs))
+  | otherwise = [x] : group' xs
+
 
 --how to change list of list into tuple of list
 
