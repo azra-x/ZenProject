@@ -313,17 +313,17 @@ union' [x] [y] = [x,y]
 union' (x:xs) (y:ys)
   | x == y = x : union' (xs) (ys)
 
---baris terakhir = kenapa tdk bisa kebalikan?
+--pembatas
 
 intersect' _ [] = []
 intersect' [] _ = []
 intersect' (x:xs) (y:ys)
-  | x == find x (y:ys) = [x] ++ intersect' xd (y:ys)
+  | x == find x (y:ys) = [x] ++ intersect' xs (y:ys)
   | x /= find x (y:ys) = intersect' xs (y:ys)
     where find x [] = 0
           find x (y:ys)
             | x == y = y
-            | x /= y = carisi x (ys)
+            | x /= y = find x (ys)
 --pembatas
 
 group' [] = []
