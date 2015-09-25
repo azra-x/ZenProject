@@ -210,8 +210,11 @@ product' (x:xs) = x * (product' xs)
 
 --pembatas
 
-unwords' [] = []
-unwords' (x:xs) = x ++ " " ++ (unlines' (xs))
+words' [] = []
+words' (x:xs)
+  | x == ' ' = words' xs
+  | x == '\n' = words' xs
+  | otherwise =
 
 --pembatas
 
@@ -224,7 +227,8 @@ unlines' (x:xs) = x ++ "\n" ++ (unlines' (xs))
 
 --pembatas
 
-unwords' x = x
+unwords' [] = []
+unwords' (x:xs) = x ++ " " ++ (unwords' (xs))
 
 --pembatas
 
