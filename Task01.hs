@@ -69,8 +69,10 @@ foldl'' f a (x:xs) = f (foldl'' f (a) (xs)) x
 -- (-)  ((-)1 ((-) 2 ((-) 3 4 )) 2
 --pembatas
 
-foldl1'' a [x] = x
-foldl1'' a (x:xs) = a (foldl1'' a xs) x
+--foldl1'' a [x] = x
+--foldl1'' a (x:xs) = a u (foldl1'' a (m:ml))
+--where u = last (x:xs)
+--m:ml = tail (reverse xs)
 
 --pembatas
 
@@ -208,7 +210,8 @@ product' (x:xs) = x * (product' xs)
 
 --pembatas
 
-words' x = x
+unwords' [] = []
+unwords' (x:xs) = x ++ " " ++ (unlines' (xs))
 
 --pembatas
 
@@ -216,7 +219,8 @@ lines' x = x
 
 --pembatas
 
---unlines' (x:xs) = putStrLn x : unlines' xs : []
+unlines' [] = []
+unlines' (x:xs) = x ++ "\n" ++ (unlines' (xs))
 
 --pembatas
 
@@ -349,6 +353,8 @@ partition' a (x:xs) = ((filter' a (x:xs)) , (unfilter' a (x:xs)))
 
 replicate' 0 x = []
 replicate' a x = x : replicate' (a-1) x
+
+-- (ceiling, round)
 
 --pembatas
 -- First Assignment
